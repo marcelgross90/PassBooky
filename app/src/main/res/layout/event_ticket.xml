@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <rocks.marcelgross.passbooky.customComponents.CardHeaderView
         android:id="@+id/header"
@@ -17,16 +28,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/strip"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:minWidth="80dp"
-        android:minHeight="50dp"
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/thumbnail"
+        android:minWidth="150dp"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/secondary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toTopOf="@+id/primary"
+        app:layout_constraintVertical_bias="0.0" />
 
     <rocks.marcelgross.passbooky.customComponents.PrimaryFieldsView
         android:id="@+id/primary"
@@ -34,10 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/strip"
-        app:layout_constraintTop_toTopOf="@+id/strip" />
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <rocks.marcelgross.passbooky.customComponents.SecondaryFieldsView
         android:id="@+id/secondary"
@@ -45,11 +56,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/primary" />
+
+    <rocks.marcelgross.passbooky.customComponents.AuxiliaryFieldsView
+        android:id="@+id/auxiliary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/strip" />
+        app:layout_constraintTop_toBottomOf="@id/secondary" />
 
     <View
         android:id="@+id/view"
@@ -61,7 +82,7 @@
         android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondary" />
+        app:layout_constraintTop_toBottomOf="@+id/auxiliary" />
 
     <Button
         android:id="@+id/button"
@@ -76,6 +97,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
-
 
 </android.support.constraint.ConstraintLayout>

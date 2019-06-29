@@ -23,6 +23,8 @@ data class PKPass(
 ) {
     var logo: Drawable? = null
     var strip: Drawable? = null
+    var background: Drawable? = null
+    var thumbnail: Drawable? = null
     val foregroundColorAsColor: Color
         get() {
             foregroundColor?.let {

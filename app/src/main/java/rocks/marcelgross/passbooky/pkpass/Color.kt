@@ -10,10 +10,10 @@ class Color {
     ) {
         val rgbValues = input.replace("rgb(", "")
             .replace(")", "")
-        val rgb = rgbValues.split(", ")
-        red = rgb[0].toInt()
-        green = rgb[1].toInt()
-        blue = rgb[2].toInt()
+        val rgb = rgbValues.split(",")
+        red = rgb[0].trim().toInt()
+        green = rgb[1].trim().toInt()
+        blue = rgb[2].trim().toInt()
     }
 
     constructor(

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <rocks.marcelgross.passbooky.customComponents.SecondaryFieldView
+        android:id="@+id/field1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/field2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rocks.marcelgross.passbooky.customComponents.SecondaryFieldView
+        android:id="@+id/field2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/field3"
+        app:layout_constraintStart_toEndOf="@id/field1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rocks.marcelgross.passbooky.customComponents.SecondaryFieldView
+        android:id="@+id/field3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/field4"
+        app:layout_constraintStart_toEndOf="@id/field2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rocks.marcelgross.passbooky.customComponents.SecondaryFieldView
+        android:id="@+id/field4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/field3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

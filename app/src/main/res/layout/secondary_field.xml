@@ -6,24 +6,21 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/headerLabel"
+        android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="textEnd"
+        android:text="@string/label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/headerValue"
+        android:id="@+id/value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="textEnd"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/headerLabel"
-        app:layout_constraintStart_toStartOf="@+id/headerLabel"
-        app:layout_constraintTop_toBottomOf="@+id/headerLabel" />
+        android:text="@string/value"
+        app:layout_constraintEnd_toEndOf="@+id/label"
+        app:layout_constraintStart_toStartOf="@+id/label"
+        app:layout_constraintTop_toBottomOf="@+id/label" />
 
 </android.support.constraint.ConstraintLayout>
