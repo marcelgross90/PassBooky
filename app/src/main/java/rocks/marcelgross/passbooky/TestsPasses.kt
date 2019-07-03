@@ -4,7 +4,7 @@ object TestsPasses {
     fun eventTicket(): String = "{\n" +
             "   \"formatVersion\":1,\n" +
             "   \"serialNumber\":\"23500957\",\n" +
-            "   \"passTypeIdentifier\":\"pass.de.cineplex.booking\",\n" +
+            "   \"passTypeIdentifier\":\"passContent.de.cineplex.booking\",\n" +
             "   \"description\":\"Buchungsbestätigung: Glass (31.01.2019 19:45)\",\n" +
             "   \"teamIdentifier\":\"YAUN25EF7Q\",\n" +
             "   \"organizationName\":\"Cineplex Deutschland GmbH & Co. KG\",\n" +
@@ -59,7 +59,7 @@ object TestsPasses {
 
     fun storeCard() = "{\n" +
             "\t\"formatVersion\" : 1,\n" +
-            "\t\"passTypeIdentifier\" : \"pass.com.kurzdigital.businesscards\",\n" +
+            "\t\"passTypeIdentifier\" : \"passContent.com.kurzdigital.businesscards\",\n" +
             "\t\"serialNumber\" : \"cbr\",\n" +
             "\t\"teamIdentifier\" : \"25MXZ8DDDM\",\n" +
             "\t\"barcodes\" : [\n" +

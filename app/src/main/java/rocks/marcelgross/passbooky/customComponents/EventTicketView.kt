@@ -45,21 +45,22 @@ class EventTicketView : ConstraintLayout {
     }
 
     fun setUpView(pass: PKPass, passType: PassType, fm: FragmentManager) {
+        val passContent = pass.passContent
         this.passType = passType
-        val backgroundColor = pass.backgroundColorAsPKColor
+        val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
-        val labelColor = pass.labelColorAsPKColor
+        val labelColor = passContent.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsPKColor
+        val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val passContent = pass.eventTicket
-        if (passContent != null) {
+        val eventTicket = passContent.eventTicket
+        if (eventTicket != null) {
             header.setUpView(pass, PassType.EVENT_TICKET)
-            primary.setUpView(passContent.primaryFields, labelColorInt, textColorInt)
-            secondary.setUpView(passContent.secondaryFields, labelColorInt, textColorInt)
-            auxiliary.setUpView(passContent.auxiliaryFields, labelColorInt, textColorInt)
+            primary.setUpView(eventTicket.primaryFields, labelColorInt, textColorInt)
+            secondary.setUpView(eventTicket.secondaryFields, labelColorInt, textColorInt)
+            auxiliary.setUpView(eventTicket.auxiliaryFields, labelColorInt, textColorInt)
 
-            if (passContent.backFields.isEmpty()) {
+            if (eventTicket.backFields.isEmpty()) {
                 moreButton.visibility = View.GONE
             }
         }

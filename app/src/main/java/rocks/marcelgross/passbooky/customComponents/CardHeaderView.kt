@@ -8,7 +8,6 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassContent
 import rocks.marcelgross.passbooky.pkpass.PassType
 
 class CardHeaderView : ConstraintLayout {
@@ -33,22 +32,16 @@ class CardHeaderView : ConstraintLayout {
     }
 
     fun setUpView(pass: PKPass, passType: PassType) {
-        val labelColor = pass.labelColorAsPKColor
+        val passContent = pass.passContent
+        val labelColor = passContent.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsPKColor
+        val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val passContent = getContentForType(pass, passType)
-        if (passContent != null) {
-            header.setUpView(passContent.headerFields, labelColorInt, textColorInt)
+        val cardContent = getContentForType(passContent, passType)
+        if (cardContent != null) {
+            header.setUpView(cardContent.headerFields, labelColorInt, textColorInt)
         }
         logo.setImageDrawable(pass.logo)
-    }
-
-    private fun getContentForType(pass: PKPass, passType: PassType): PassContent? {
-        return when (passType) {
-            PassType.EVENT_TICKET -> pass.eventTicket
-            PassType.STORE_CARD -> pass.storeCard
-        }
     }
 
     private fun init(context: Context) {

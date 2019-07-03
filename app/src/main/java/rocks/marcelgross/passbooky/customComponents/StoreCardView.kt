@@ -44,20 +44,21 @@ class StoreCardView : ConstraintLayout {
     }
 
     fun setUpView(pass: PKPass, passType: PassType, fm: FragmentManager) {
+        val passContent = pass.passContent
         this.passType = passType
-        val backgroundColor = pass.backgroundColorAsPKColor
+        val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
-        val labelColor = pass.labelColorAsPKColor
+        val labelColor = passContent.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsPKColor
+        val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val passContent = pass.storeCard
-        if (passContent != null) {
+        val storeCard = passContent.storeCard
+        if (storeCard != null) {
             header.setUpView(pass, PassType.STORE_CARD)
-            primary.setUpView(passContent.primaryFields, labelColorInt, textColorInt)
-            secondary.setUpView(passContent.secondaryFields, labelColorInt, textColorInt)
+            primary.setUpView(storeCard.primaryFields, labelColorInt, textColorInt)
+            secondary.setUpView(storeCard.secondaryFields, labelColorInt, textColorInt)
 
-            if (passContent.backFields.isEmpty()) {
+            if (storeCard.backFields.isEmpty()) {
                 moreButton.visibility = View.GONE
             }
         }

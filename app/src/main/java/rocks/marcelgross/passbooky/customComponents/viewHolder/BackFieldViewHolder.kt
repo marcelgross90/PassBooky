@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKField
 
-class BackFieldViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class BackFieldViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private var label: TextView = view.findViewById(R.id.label)
     private var value: TextView = view.findViewById(R.id.value)

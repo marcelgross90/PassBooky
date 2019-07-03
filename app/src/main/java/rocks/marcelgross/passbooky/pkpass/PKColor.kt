@@ -35,5 +35,3 @@ fun PKColor.asColor() =
         this.green,
         this.blue
     )
-
-

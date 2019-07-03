@@ -12,7 +12,17 @@ import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.customComponents.adapter.BackFieldAdapter
 import rocks.marcelgross.passbooky.pkpass.PKPass
+import rocks.marcelgross.passbooky.pkpass.PassContent
+import rocks.marcelgross.passbooky.pkpass.PassStructure
+import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
+
+fun getContentForType(passContent: PassContent, passType: PassType): PassStructure? {
+    return when (passType) {
+        PassType.EVENT_TICKET -> passContent.eventTicket
+        PassType.STORE_CARD -> passContent.storeCard
+    }
+}
 
 class BackFieldsView : ConstraintLayout {
 
@@ -38,20 +48,20 @@ class BackFieldsView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass) {
-        val backgroundColor = pass.backgroundColorAsPKColor
+    fun setUpView(pass: PKPass, passType: PassType) {
+        val passContent = pass.passContent
+        val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
-        val labelColor = pass.labelColorAsPKColor
+        val labelColor = passContent.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsPKColor
+        val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val passContent = pass.storeCard
-        if (passContent != null) {
-            backFieldAdapter.addBackFields(passContent.backFields, labelColorInt, textColorInt)
+        val cardContent = getContentForType(passContent, passType)
+        if (cardContent != null) {
+            backFieldAdapter.addBackFields(cardContent.backFields, labelColorInt, textColorInt)
             backFieldAdapter.notifyDataSetChanged()
         }
         backgroundImage.setImageDrawable(pass.background)
-
     }
 
     private fun init(context: Context) {
@@ -66,6 +76,5 @@ class BackFieldsView : ConstraintLayout {
         backFields.adapter = backFieldAdapter
         backFields.setHasFixedSize(true)
         backFields.layoutManager = layoutManager
-
     }
 }

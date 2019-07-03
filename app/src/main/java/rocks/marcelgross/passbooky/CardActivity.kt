@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import rocks.marcelgross.passbooky.fragment.BackFieldsFragment
 import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
 import rocks.marcelgross.passbooky.pkpass.PassType
@@ -42,7 +41,6 @@ class CardActivity : AppCompatActivity() {
         } else {
             finish()
         }
-
     }
 
     private fun replaceFragment(fm: FragmentManager, fragment: Fragment) {

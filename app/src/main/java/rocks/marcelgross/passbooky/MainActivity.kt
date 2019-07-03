@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         test()
         val storeCardBtn = findViewById<Button>(R.id.storeCard)
         val eventTicketBtn = findViewById<Button>(R.id.eventTicket)
@@ -32,9 +31,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun test() {
-        val cbr = ImageLoader.pkPassLoader(this, "cbr-businesscard.pkpass")
+
+        val cbr = PKPassLoader.load(assets.open("cbr-businesscard.pkpass"))
         Log.d("mgr", "next card")
-        val pass = ImageLoader.pkPassLoader(this, "pass.pkpass")
+        val pass = PKPassLoader.load(assets.open("pass.pkpass"))
 
         Log.d("mgr", pass.toString())
     }
