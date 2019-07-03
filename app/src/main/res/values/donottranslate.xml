@@ -4,6 +4,7 @@
     <string name="value">Value</string>
     <string name="logo">Logo</string>
     <string name="strip">Strip</string>
+    <string name="barcode">Barcode</string>
     <string name="background">Background</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="bar_code_content">Barcode Content</string>
