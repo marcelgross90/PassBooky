@@ -35,7 +35,7 @@ abstract class PKFieldsView : ConstraintLayout {
     fun setUpView(fields: List<PKField>, labelColor: Int, textColor: Int) {
         when (fields.size) {
             0 -> {
-                field1.visibility = View.GONE
+                field1.visibility = View.INVISIBLE
                 field2.visibility = View.GONE
                 field3.visibility = View.GONE
             }
