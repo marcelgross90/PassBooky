@@ -1,19 +1,86 @@
 package rocks.marcelgross.passbooky
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
 import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
+import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
 
-class CardActivity : AppCompatActivity() {
+class CardActivity : AppCompatActivity(), PassReceiver {
+
+    private val navigationMenuId = 1
+    private val calenderMenuId = 2
 
     private lateinit var fm: FragmentManager
     private lateinit var contentContainer: View
+    private lateinit var pass: PKPass
+    private lateinit var fileName: String
+
+    override fun getPass(): PKPass {
+        return pass
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (menu != null) {
+            val passContent = pass.passContent
+            if (passContent.locations.isNotEmpty()) {
+                val menuItem: MenuItem =
+                    menu.add(Menu.NONE, navigationMenuId, Menu.NONE, R.string.navigation)
+                menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_navigation)
+                menuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
+            if (passContent.relevantDate != null) {
+                val menuItem: MenuItem =
+                    menu.add(Menu.NONE, calenderMenuId, Menu.NONE, R.string.add_to_calendar)
+                menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_today)
+                menuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            navigationMenuId -> {
+                openInMaps()
+                return true
+            }
+            calenderMenuId -> {
+                saveInCalendar()
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun saveInCalendar() {
+        val passContent = pass.passContent
+        val intent = Intent(Intent.ACTION_EDIT)
+        intent.type = "vnd.android.cursor.item/event"
+        intent.putExtra("beginTime", passContent.relevantDate?.time)
+        intent.putExtra("title", passContent.description)
+        startActivity(intent)
+    }
+
+    private fun openInMaps() {
+        val position = pass.passContent.locations[0]
+        val uri =
+            "geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,21 +92,30 @@ class CardActivity : AppCompatActivity() {
 
         initToolbar()
 
-        val passType = intent.getStringExtra("type")
+        fileName = intent.getStringExtra("fileName")
+
+        pass = PKPassLoader.load(assets.open(fileName))
+        val passType = pass.getPassType()
+
         var fragment: Fragment? = null
 
         when (passType) {
-            PassType.STORE_CARD.name -> fragment = StoreCardFragment()
-            PassType.EVENT_TICKET.name -> fragment = EventTicketFragment()
+            PassType.STORE_CARD -> fragment = StoreCardFragment()
+            PassType.EVENT_TICKET -> fragment = EventTicketFragment()
+            PassType.UNKNOWN -> finish()
         }
 
         if (fragment != null) {
+            val bundle = Bundle()
+            bundle.putString(
+                "fileName",
+                fileName
+            )
+            fragment.arguments = bundle
             replaceFragment(
                 fm,
                 fragment
             )
-        } else {
-            finish()
         }
     }
 

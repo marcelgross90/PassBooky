@@ -2,10 +2,8 @@ package rocks.marcelgross.passbooky
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import rocks.marcelgross.passbooky.pkpass.PassType
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,29 +11,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        test()
-        val storeCardBtn = findViewById<Button>(R.id.storeCard)
-        val eventTicketBtn = findViewById<Button>(R.id.eventTicket)
+        val chris = findViewById<Button>(R.id.chris)
+        val admiral = findViewById<Button>(R.id.admiral)
+        val cine = findViewById<Button>(R.id.cine)
 
-        storeCardBtn.setOnClickListener {
+        chris.setOnClickListener {
             val intent = Intent(this, CardActivity::class.java)
-            intent.putExtra("type", PassType.STORE_CARD.name)
+            intent.putExtra("fileName", "cbr-businesscard.pkpass")
             startActivity(intent)
         }
 
-        eventTicketBtn.setOnClickListener {
+        admiral.setOnClickListener {
             val intent = Intent(this, CardActivity::class.java)
-            intent.putExtra("type", PassType.EVENT_TICKET.name)
+            intent.putExtra("fileName", "pass.pkpass")
             startActivity(intent)
         }
-    }
 
-    private fun test() {
-
-        val cbr = PKPassLoader.load(assets.open("cbr-businesscard.pkpass"))
-        Log.d("mgr", "next card")
-        val pass = PKPassLoader.load(assets.open("pass.pkpass"))
-
-        Log.d("mgr", pass.toString())
+        cine.setOnClickListener {
+            val intent = Intent(this, CardActivity::class.java)
+            intent.putExtra("fileName", "cine.pkpass")
+            startActivity(intent)
+        }
     }
 }

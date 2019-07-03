@@ -21,6 +21,7 @@ fun getContentForType(passContent: PassContent, passType: PassType): PassStructu
     return when (passType) {
         PassType.EVENT_TICKET -> passContent.eventTicket
         PassType.STORE_CARD -> passContent.storeCard
+        PassType.UNKNOWN -> null
     }
 }
 
@@ -48,7 +49,7 @@ class BackFieldsView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass, passType: PassType) {
+    fun setUpView(pass: PKPass) {
         val passContent = pass.passContent
         val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
@@ -56,7 +57,7 @@ class BackFieldsView : ConstraintLayout {
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
         val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val cardContent = getContentForType(passContent, passType)
+        val cardContent = getContentForType(passContent, pass.getPassType())
         if (cardContent != null) {
             backFieldAdapter.addBackFields(cardContent.backFields, labelColorInt, textColorInt)
             backFieldAdapter.notifyDataSetChanged()

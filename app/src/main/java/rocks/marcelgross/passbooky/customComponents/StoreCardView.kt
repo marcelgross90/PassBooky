@@ -2,7 +2,6 @@ package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,22 @@ import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
 
+fun replaceFragment(fm: FragmentManager) {
+    val fragment = BackFieldsFragment()
+    fm
+        .beginTransaction()
+        .setCustomAnimations(
+            R.animator.right_in, R.animator.right_out,
+            R.animator.left_in, R.animator.left_out
+        )
+        .replace(
+            R.id.content_container,
+            fragment, fragment.javaClass.name
+        )
+        .addToBackStack(null)
+        .commit()
+}
+
 class StoreCardView : ConstraintLayout {
 
     private lateinit var header: CardHeaderView
@@ -24,7 +39,6 @@ class StoreCardView : ConstraintLayout {
     private lateinit var secondary: SecondaryFieldsView
     private lateinit var background: LinearLayout
     private lateinit var strip: ImageView
-    private lateinit var passType: PassType
     private lateinit var moreButton: Button
 
     constructor(context: Context) : super(context) {
@@ -43,9 +57,8 @@ class StoreCardView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass, passType: PassType, fm: FragmentManager) {
+    fun setUpView(pass: PKPass, fm: FragmentManager) {
         val passContent = pass.passContent
-        this.passType = passType
         val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
         val labelColor = passContent.labelColorAsPKColor
@@ -65,28 +78,8 @@ class StoreCardView : ConstraintLayout {
         strip.setImageDrawable(pass.strip)
 
         moreButton.setOnClickListener {
-                replaceFragment(fm)
+            replaceFragment(fm)
         }
-    }
-
-    private fun replaceFragment(fm: FragmentManager) {
-        val fragment = BackFieldsFragment()
-        val bundle = Bundle()
-        bundle.putString(
-            "passType",
-            passType.name
-        )
-        fragment.arguments = bundle
-        fm
-            .beginTransaction()
-            .setCustomAnimations(R.animator.right_in, R.animator.right_out,
-                R.animator.left_in, R.animator.left_out)
-            .replace(
-                R.id.content_container,
-                fragment, fragment.javaClass.name
-            )
-            .addToBackStack(null)
-            .commit()
     }
 
     private fun init(context: Context) {

@@ -2,7 +2,6 @@ package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.fragment.BackFieldsFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
@@ -25,7 +23,6 @@ class EventTicketView : ConstraintLayout {
     private lateinit var backgroundImage: ImageView
     private lateinit var background: ConstraintLayout
     private lateinit var thumbnail: ImageView
-    private lateinit var passType: PassType
     private lateinit var moreButton: Button
 
     constructor(context: Context) : super(context) {
@@ -44,9 +41,8 @@ class EventTicketView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass, passType: PassType, fm: FragmentManager) {
+    fun setUpView(pass: PKPass, fm: FragmentManager) {
         val passContent = pass.passContent
-        this.passType = passType
         val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
         val labelColor = passContent.labelColorAsPKColor
@@ -70,23 +66,6 @@ class EventTicketView : ConstraintLayout {
         moreButton.setOnClickListener {
             replaceFragment(fm)
         }
-    }
-
-    private fun replaceFragment(fm: FragmentManager) {
-        val fragment = BackFieldsFragment()
-        val bundle = Bundle()
-        bundle.putString(
-            "passType",
-            passType.name
-        )
-        fragment.arguments = bundle
-        fm.beginTransaction()
-            .replace(
-                R.id.content_container,
-                fragment, fragment.javaClass.name
-            )
-            .addToBackStack(null)
-            .commit()
     }
 
     private fun init(context: Context) {

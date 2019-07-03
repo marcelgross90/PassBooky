@@ -1,5 +1,7 @@
 package rocks.marcelgross.passbooky.customComponents.viewHolder
 
+import android.os.Build
+import android.text.Html
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,11 @@ class BackFieldViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         if (field.value != null) {
             value.text = field.value
         } else if (field.attributedValue != null) {
-            value.text = field.attributedValue
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                value.text = Html.fromHtml(field.attributedValue, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                value.text = Html.fromHtml(field.attributedValue)
+            }
         }
     }
 }

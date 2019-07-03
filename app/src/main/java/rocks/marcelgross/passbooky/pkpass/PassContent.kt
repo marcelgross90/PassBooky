@@ -17,6 +17,7 @@ data class PassContent(
     val storeCard: PassStructure? = null,
     val boardingPass: PassStructure? = null,
     val generic: PassStructure? = null,
+    val locations: List<PKLocation> = mutableListOf(),
     val barcodes: List<PKBarcode> = mutableListOf(),
     val relevantDate: Date? = null
 ) {
