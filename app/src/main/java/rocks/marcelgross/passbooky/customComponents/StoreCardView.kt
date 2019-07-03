@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.R
@@ -36,7 +35,7 @@ class StoreCardView : ConstraintLayout {
     private lateinit var header: CardHeaderView
     private lateinit var primary: PrimaryFieldsView
     private lateinit var secondary: SecondaryFieldsView
-    private lateinit var background: LinearLayout
+    private lateinit var background: ConstraintLayout
     private lateinit var strip: ImageView
     private lateinit var barcode: BarcodeView
     private lateinit var moreButton: Button
@@ -82,6 +81,7 @@ class StoreCardView : ConstraintLayout {
             passContent.barcode != null -> barcode.setUpView(passContent.barcode)
             else -> barcode.visibility = View.INVISIBLE
         }
+        moreButton.setTextColor(textColorInt)
         moreButton.setOnClickListener {
             replaceFragment(fm)
         }

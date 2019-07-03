@@ -1,9 +1,11 @@
 package rocks.marcelgross.passbooky.customComponents
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +34,7 @@ class BackFieldsView : ConstraintLayout {
     private lateinit var backFieldAdapter: BackFieldAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var backgroundImage: ImageView
+    private lateinit var lessBtn: Button
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -49,7 +52,7 @@ class BackFieldsView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass) {
+    fun setUpView(pass: PKPass, activity: Activity) {
         val passContent = pass.passContent
         val backgroundColor = passContent.backgroundColorAsPKColor
         background.setBackgroundColor(backgroundColor.asColor())
@@ -63,6 +66,9 @@ class BackFieldsView : ConstraintLayout {
             backFieldAdapter.notifyDataSetChanged()
         }
         backgroundImage.setImageDrawable(pass.background)
+
+        lessBtn.setTextColor(textColorInt)
+        lessBtn.setOnClickListener { activity.onBackPressed() }
     }
 
     private fun init(context: Context) {
@@ -77,5 +83,6 @@ class BackFieldsView : ConstraintLayout {
         backFields.adapter = backFieldAdapter
         backFields.setHasFixedSize(true)
         backFields.layoutManager = layoutManager
+        lessBtn = findViewById(R.id.lessBtn)
     }
 }

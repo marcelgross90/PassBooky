@@ -69,6 +69,7 @@ class EventTicketView : ConstraintLayout {
         backgroundImage.setImageDrawable(pass.background)
         thumbnail.setImageDrawable(pass.thumbnail)
 
+        moreButton.setTextColor(textColorInt)
         moreButton.setOnClickListener {
             replaceFragment(fm)
         }

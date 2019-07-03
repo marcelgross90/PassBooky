@@ -18,4 +18,6 @@
         <item name="android:textColorPrimary">@color/toolbarText</item>
     </style>
 
+    <style name="BorderlessButton" parent="android:Widget.DeviceDefault.Button.Borderless"/>
+
 </resources>

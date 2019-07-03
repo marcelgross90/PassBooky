@@ -29,7 +29,9 @@ class BackFieldsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_back_fields, container, false)
 
         val backFieldsView = view.findViewById<BackFieldsView>(R.id.backFieldsView)
-        backFieldsView.setUpView(passReceiver.getPass())
+        activity?.let {
+            backFieldsView.setUpView(passReceiver.getPass(), it)
+        }
 
         return view
     }
