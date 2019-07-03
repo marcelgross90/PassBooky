@@ -1,8 +1,9 @@
-package rocks.marcelgross.passbooky
+package rocks.marcelgross.passbooky.customComponents.viewHolder
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKField
 
 class BackFieldViewHolder(view: View): RecyclerView.ViewHolder(view) {

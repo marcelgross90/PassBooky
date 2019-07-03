@@ -33,9 +33,9 @@ class CardHeaderView : ConstraintLayout {
     }
 
     fun setUpView(pass: PKPass, passType: PassType) {
-        val labelColor = pass.labelColorAsColor
+        val labelColor = pass.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsColor
+        val textColor = pass.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
         val passContent = getContentForType(pass, passType)
         if (passContent != null) {

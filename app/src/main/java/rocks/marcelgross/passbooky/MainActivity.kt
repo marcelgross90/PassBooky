@@ -2,8 +2,10 @@ package rocks.marcelgross.passbooky
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import rocks.marcelgross.passbooky.pkpass.PassType
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,23 +13,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        test()
         val storeCardBtn = findViewById<Button>(R.id.storeCard)
         val eventTicketBtn = findViewById<Button>(R.id.eventTicket)
-        val cardBtn = findViewById<Button>(R.id.card)
 
         storeCardBtn.setOnClickListener {
-            val intent = Intent(this, StoreCardActivity::class.java)
+            val intent = Intent(this, CardActivity::class.java)
+            intent.putExtra("type", PassType.STORE_CARD.name)
             startActivity(intent)
         }
 
         eventTicketBtn.setOnClickListener {
-            val intent = Intent(this, EventTicketActivity::class.java)
-            startActivity(intent)
-        }
-
-        cardBtn.setOnClickListener {
             val intent = Intent(this, CardActivity::class.java)
+            intent.putExtra("type", PassType.EVENT_TICKET.name)
             startActivity(intent)
         }
+    }
+
+    private fun test() {
+        val cbr = ImageLoader.pkPassLoader(this, "cbr-businesscard.pkpass")
+        Log.d("mgr", "next card")
+        val pass = ImageLoader.pkPassLoader(this, "pass.pkpass")
+
+        Log.d("mgr", pass.toString())
     }
 }

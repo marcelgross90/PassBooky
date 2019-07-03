@@ -2,13 +2,19 @@ package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.R
+import rocks.marcelgross.passbooky.fragment.BackFieldsFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
+import rocks.marcelgross.passbooky.pkpass.asColor
 
 class EventTicketView : ConstraintLayout {
 
@@ -19,6 +25,8 @@ class EventTicketView : ConstraintLayout {
     private lateinit var backgroundImage: ImageView
     private lateinit var background: ConstraintLayout
     private lateinit var thumbnail: ImageView
+    private lateinit var passType: PassType
+    private lateinit var moreButton: Button
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -36,18 +44,13 @@ class EventTicketView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass) {
-        val backgroundColor = pass.backgroundColorAsColor
-        background.setBackgroundColor(
-            Color.rgb(
-                backgroundColor.red,
-                backgroundColor.green,
-                backgroundColor.blue
-            )
-        )
-        val labelColor = pass.labelColorAsColor
+    fun setUpView(pass: PKPass, passType: PassType, fm: FragmentManager) {
+        this.passType = passType
+        val backgroundColor = pass.backgroundColorAsPKColor
+        background.setBackgroundColor(backgroundColor.asColor())
+        val labelColor = pass.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
-        val textColor = pass.foregroundColorAsColor
+        val textColor = pass.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
         val passContent = pass.eventTicket
         if (passContent != null) {
@@ -55,9 +58,34 @@ class EventTicketView : ConstraintLayout {
             primary.setUpView(passContent.primaryFields, labelColorInt, textColorInt)
             secondary.setUpView(passContent.secondaryFields, labelColorInt, textColorInt)
             auxiliary.setUpView(passContent.auxiliaryFields, labelColorInt, textColorInt)
+
+            if (passContent.backFields.isEmpty()) {
+                moreButton.visibility = View.GONE
+            }
         }
         backgroundImage.setImageDrawable(pass.background)
         thumbnail.setImageDrawable(pass.thumbnail)
+
+        moreButton.setOnClickListener {
+            replaceFragment(fm)
+        }
+    }
+
+    private fun replaceFragment(fm: FragmentManager) {
+        val fragment = BackFieldsFragment()
+        val bundle = Bundle()
+        bundle.putString(
+            "passType",
+            passType.name
+        )
+        fragment.arguments = bundle
+        fm.beginTransaction()
+            .replace(
+                R.id.content_container,
+                fragment, fragment.javaClass.name
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun init(context: Context) {
@@ -71,5 +99,6 @@ class EventTicketView : ConstraintLayout {
         background = findViewById(R.id.background)
         backgroundImage = findViewById(R.id.background_image)
         thumbnail = findViewById(R.id.thumbnail)
+        moreButton = findViewById(R.id.button)
     }
 }

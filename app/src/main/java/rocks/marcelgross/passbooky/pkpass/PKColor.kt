@@ -1,6 +1,8 @@
 package rocks.marcelgross.passbooky.pkpass
 
-class Color {
+import android.graphics.Color
+
+class PKColor {
     val red: Int
     val green: Int
     val blue: Int
@@ -26,3 +28,12 @@ class Color {
         this.blue = blue
     }
 }
+
+fun PKColor.asColor() =
+    Color.rgb(
+        this.red,
+        this.green,
+        this.blue
+    )
+
+

@@ -25,25 +25,25 @@ data class PKPass(
     var strip: Drawable? = null
     var background: Drawable? = null
     var thumbnail: Drawable? = null
-    val foregroundColorAsColor: Color
+    val foregroundColorAsPKColor: PKColor
         get() {
             foregroundColor?.let {
-                return Color(it)
+                return PKColor(it)
             }
-            return Color(0, 0, 0)
+            return PKColor(0, 0, 0)
         }
-    val backgroundColorAsColor: Color
+    val backgroundColorAsPKColor: PKColor
         get() {
             backgroundColor?.let {
-                return Color(it)
+                return PKColor(it)
             }
-            return Color(0, 0, 0)
+            return PKColor(0, 0, 0)
         }
-    val labelColorAsColor: Color
+    val labelColorAsPKColor: PKColor
         get() {
             labelColor?.let {
-                return Color(it)
+                return PKColor(it)
             }
-            return Color(0, 0, 0)
+            return PKColor(0, 0, 0)
         }
 }

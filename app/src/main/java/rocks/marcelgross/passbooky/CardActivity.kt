@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import rocks.marcelgross.passbooky.fragment.BackFieldsFragment
+import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
+import rocks.marcelgross.passbooky.pkpass.PassType
 
 class CardActivity : AppCompatActivity() {
 
@@ -23,12 +26,23 @@ class CardActivity : AppCompatActivity() {
 
         initToolbar()
 
-        if (savedInstanceState == null) {
+        val passType = intent.getStringExtra("type")
+        var fragment: Fragment? = null
+
+        when (passType) {
+            PassType.STORE_CARD.name -> fragment = StoreCardFragment()
+            PassType.EVENT_TICKET.name -> fragment = EventTicketFragment()
+        }
+
+        if (fragment != null) {
             replaceFragment(
                 fm,
-                StoreCardFragment()
+                fragment
             )
+        } else {
+            finish()
         }
+
     }
 
     private fun replaceFragment(fm: FragmentManager, fragment: Fragment) {
@@ -54,5 +68,10 @@ class CardActivity : AppCompatActivity() {
             super.onBackPressed()
         else
             finish()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
