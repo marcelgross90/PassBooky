@@ -2,8 +2,8 @@ package rocks.marcelgross.passbooky
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import rocks.marcelgross.passbooky.customComponents.StoreCardView
 import rocks.marcelgross.passbooky.pkpass.PKPass

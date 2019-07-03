@@ -25,7 +25,7 @@ class SecondaryFieldView : PKFieldView {
     }
 
     private fun init() {
-        label.setTypeface(null, Typeface.BOLD);
+        label.setTypeface(null, Typeface.BOLD)
     }
 
     override fun setLayout() = R.layout.secondary_field

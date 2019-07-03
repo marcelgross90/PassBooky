@@ -2,10 +2,10 @@ package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
 import android.graphics.Color
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassContent
@@ -15,7 +15,6 @@ class CardHeaderView : ConstraintLayout {
 
     private lateinit var header: HeaderFieldsView
     private lateinit var logo: ImageView
-
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -46,7 +45,7 @@ class CardHeaderView : ConstraintLayout {
     }
 
     private fun getContentForType(pass: PKPass, passType: PassType): PassContent? {
-        return when(passType) {
+        return when (passType) {
             PassType.EVENT_TICKET -> pass.eventTicket
             PassType.STORE_CARD -> pass.storeCard
         }
@@ -59,5 +58,4 @@ class CardHeaderView : ConstraintLayout {
         header = findViewById(R.id.headerFields)
         logo = findViewById(R.id.logo)
     }
-
 }

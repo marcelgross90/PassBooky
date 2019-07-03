@@ -1,13 +1,12 @@
 package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.customComponents.abstractViews.PKFieldView
-import rocks.marcelgross.passbooky.customComponents.abstractViews.PKFieldsView
 import rocks.marcelgross.passbooky.pkpass.PKField
 
 class AuxiliaryFieldsView :

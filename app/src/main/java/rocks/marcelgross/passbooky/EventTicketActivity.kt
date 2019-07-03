@@ -1,16 +1,13 @@
 package rocks.marcelgross.passbooky
 
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import rocks.marcelgross.passbooky.customComponents.EventTicketView
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import java.lang.Exception
-import android.content.Intent
-import android.view.MenuItem
-
 
 class EventTicketActivity : AppCompatActivity() {
 
@@ -40,8 +37,6 @@ class EventTicketActivity : AppCompatActivity() {
             val ims2 = assets.open("event_ticket_thumbnail.png")
             val thumbnail = Drawable.createFromStream(ims2, null)
             eventTicket.thumbnail = thumbnail
-
-
         } catch (ex: Exception) {
             Log.d("mgr1", ex.message)
         }

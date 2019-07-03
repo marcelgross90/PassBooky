@@ -2,10 +2,10 @@ package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
 import android.graphics.Color
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
@@ -19,7 +19,6 @@ class EventTicketView : ConstraintLayout {
     private lateinit var backgroundImage: ImageView
     private lateinit var background: ConstraintLayout
     private lateinit var thumbnail: ImageView
-
 
     constructor(context: Context) : super(context) {
         init(context)

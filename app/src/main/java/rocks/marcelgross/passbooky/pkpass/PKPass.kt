@@ -30,21 +30,20 @@ data class PKPass(
             foregroundColor?.let {
                 return Color(it)
             }
-            return Color(0,0,0)
+            return Color(0, 0, 0)
         }
     val backgroundColorAsColor: Color
         get() {
             backgroundColor?.let {
                 return Color(it)
             }
-            return Color(0,0,0)
+            return Color(0, 0, 0)
         }
     val labelColorAsColor: Color
         get() {
             labelColor?.let {
                 return Color(it)
             }
-            return Color(0,0,0)
+            return Color(0, 0, 0)
         }
-
 }

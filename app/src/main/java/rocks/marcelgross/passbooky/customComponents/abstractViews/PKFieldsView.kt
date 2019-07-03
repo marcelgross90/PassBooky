@@ -1,10 +1,10 @@
 package rocks.marcelgross.passbooky.customComponents.abstractViews
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKField
 
@@ -15,7 +15,6 @@ abstract class PKFieldsView : ConstraintLayout {
     private lateinit var field3: PKFieldView
 
     protected abstract fun setLayout(): Int
-
 
     constructor(context: Context) : super(context) {
         init(context)

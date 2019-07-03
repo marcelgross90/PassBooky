@@ -1,7 +1,9 @@
 <resources>
+    <string name="app_name">PassBooky</string>
     <string name="label">Label</string>
     <string name="value">Value</string>
     <string name="logo">Logo</string>
+    <string name="strip">Strip</string>
     <string name="background">Background</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="event_ticket">Event Ticket</string>
