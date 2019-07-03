@@ -2,8 +2,10 @@ package rocks.marcelgross.passbooky.zxing
 
 import android.graphics.Bitmap
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import rocks.marcelgross.passbooky.pkpass.PKBarcodeFormat
+import java.util.EnumMap
 
 class Zxing {
 
@@ -13,16 +15,18 @@ class Zxing {
 
         fun encodeAsBitmap(
             text: String,
-            format: BarcodeFormat,
-            width: Int,
-            height: Int
+            format: BarcodeFormat
         ): Bitmap? {
+            val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
+            hints[EncodeHintType.MARGIN] = 0
+            //todo use different sizes for PDF_417
+            val size = 384
             val result = MultiFormatWriter().encode(
                 text,
                 format,
-                width,
-                height,
-                null
+                size,
+                size,
+                hints
             )
             val w = result.width
             val h = result.height
@@ -39,7 +43,7 @@ class Zxing {
                 offset += w
             }
             val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-            bitmap.setPixels(pixels, 0, width, 0, 0, w, h)
+            bitmap.setPixels(pixels, 0, size, 0, 0, w, h)
             return bitmap
         }
     }

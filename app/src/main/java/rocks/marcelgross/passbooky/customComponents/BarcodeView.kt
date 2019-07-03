@@ -46,9 +46,7 @@ class BarcodeView : ConstraintLayout {
         try {
             bitmap = Zxing.encodeAsBitmap(
                 barcode.message,
-                barcode.format.getZxingFormat(),
-                1024,
-                1024
+                barcode.format.getZxingFormat()
             )
             bitmap?.let {
                 barcodeImg.setImageBitmap(bitmap)

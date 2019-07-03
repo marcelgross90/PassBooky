@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/barcodeImg"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@id/barcodeContent"
         app:layout_constraintEnd_toEndOf="parent"
