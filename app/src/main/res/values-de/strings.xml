@@ -3,4 +3,5 @@
     <string name="less">weniger</string>
     <string name="add_to_calendar">Im Kalender speichern</string>
     <string name="navigation">Zeige in Maps</string>
+    <string name="barcode_error">Barcode konnte nicht geladen werden</string>
 </resources>

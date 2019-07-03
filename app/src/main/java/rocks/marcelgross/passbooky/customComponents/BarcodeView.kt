@@ -1,17 +1,23 @@
 package rocks.marcelgross.passbooky.customComponents
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKBarcode
+import rocks.marcelgross.passbooky.zxing.Zxing
+import rocks.marcelgross.passbooky.zxing.getZxingFormat
 
 class BarcodeView : ConstraintLayout {
 
     private lateinit var barCodeContent: TextView
+    private lateinit var barcodeImg: ImageView
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -35,6 +41,25 @@ class BarcodeView : ConstraintLayout {
         } else {
             barCodeContent.visibility = View.GONE
         }
+
+        val bitmap: Bitmap?
+        try {
+            bitmap = Zxing.encodeAsBitmap(
+                barcode.message,
+                barcode.format.getZxingFormat(),
+                1024,
+                1024
+            )
+            bitmap?.let {
+                barcodeImg.setImageBitmap(bitmap)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                R.string.barcode_error,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun init(context: Context) {
@@ -42,5 +67,6 @@ class BarcodeView : ConstraintLayout {
         this.addView(inflater.inflate(R.layout.barcode, this, false))
 
         barCodeContent = findViewById(R.id.barcodeContent)
+        barcodeImg = findViewById(R.id.barcodeImg)
     }
 }

@@ -6,12 +6,11 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white">
 
-    <View
+    <ImageView
         android:id="@+id/barcodeImg"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_margin="8dp"
-        android:background="@android:color/black"
         app:layout_constraintBottom_toTopOf="@id/barcodeContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
