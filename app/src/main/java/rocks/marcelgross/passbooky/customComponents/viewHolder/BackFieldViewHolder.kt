@@ -30,7 +30,6 @@ class BackFieldViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             } else {
                 value.text = fieldValue
             }
-
         }
     }
 }

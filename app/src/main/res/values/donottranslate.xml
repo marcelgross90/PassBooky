@@ -6,6 +6,7 @@
     <string name="strip">Strip</string>
     <string name="background">Background</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="bar_code_content">Barcode Content</string>
     <string name="event_ticket">Event Ticket</string>
     <string name="store_card">Store Card</string>
 </resources>

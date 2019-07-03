@@ -19,6 +19,7 @@ data class PassContent(
     val generic: PassStructure? = null,
     val locations: List<PKLocation> = mutableListOf(),
     val barcodes: List<PKBarcode> = mutableListOf(),
+    val barcode: PKBarcode? = null,
     val relevantDate: Date? = null
 ) {
     val foregroundColorAsPKColor: PKColor

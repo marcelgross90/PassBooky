@@ -22,6 +22,7 @@ class EventTicketView : ConstraintLayout {
     private lateinit var backgroundImage: ImageView
     private lateinit var background: ConstraintLayout
     private lateinit var thumbnail: ImageView
+    private lateinit var barcode: BarcodeView
     private lateinit var moreButton: Button
 
     constructor(context: Context) : super(context) {
@@ -59,6 +60,12 @@ class EventTicketView : ConstraintLayout {
                 moreButton.visibility = View.GONE
             }
         }
+        when {
+            passContent.barcodes.isNotEmpty() -> barcode.setUpView(passContent.barcodes[0])
+            passContent.barcode != null -> barcode.setUpView(passContent.barcode)
+            else -> barcode.visibility = View.INVISIBLE
+        }
+
         backgroundImage.setImageDrawable(pass.background)
         thumbnail.setImageDrawable(pass.thumbnail)
 
@@ -78,6 +85,7 @@ class EventTicketView : ConstraintLayout {
         background = findViewById(R.id.background)
         backgroundImage = findViewById(R.id.background_image)
         thumbnail = findViewById(R.id.thumbnail)
-        moreButton = findViewById(R.id.button)
+        barcode = findViewById(R.id.barcode)
+        moreButton = findViewById(R.id.more)
     }
 }

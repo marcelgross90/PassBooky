@@ -38,6 +38,7 @@ class StoreCardView : ConstraintLayout {
     private lateinit var secondary: SecondaryFieldsView
     private lateinit var background: LinearLayout
     private lateinit var strip: ImageView
+    private lateinit var barcode: BarcodeView
     private lateinit var moreButton: Button
 
     constructor(context: Context) : super(context) {
@@ -76,6 +77,11 @@ class StoreCardView : ConstraintLayout {
         }
         strip.setImageDrawable(pass.strip)
 
+        when {
+            passContent.barcodes.isNotEmpty() -> barcode.setUpView(passContent.barcodes[0])
+            passContent.barcode != null -> barcode.setUpView(passContent.barcode)
+            else -> barcode.visibility = View.INVISIBLE
+        }
         moreButton.setOnClickListener {
             replaceFragment(fm)
         }
@@ -90,6 +96,7 @@ class StoreCardView : ConstraintLayout {
         secondary = findViewById(R.id.secondary)
         background = findViewById(R.id.background)
         strip = findViewById(R.id.strip)
-        moreButton = findViewById(R.id.button)
+        barcode = findViewById(R.id.barcode)
+        moreButton = findViewById(R.id.more)
     }
 }
