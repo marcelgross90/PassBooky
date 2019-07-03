@@ -27,6 +27,17 @@
         app:layout_constraintGuide_percent="0.5" />
 
 
+    <TextView
+        android:id="@+id/logoText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <rocks.marcelgross.passbooky.customComponents.HeaderFieldsView
         android:id="@+id/headerFields"
         android:layout_width="0dp"
