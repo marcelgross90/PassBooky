@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.fragment.BackFieldsFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
 
 fun replaceFragment(fm: FragmentManager) {
@@ -67,7 +66,7 @@ class StoreCardView : ConstraintLayout {
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
         val storeCard = passContent.storeCard
         if (storeCard != null) {
-            header.setUpView(pass, PassType.STORE_CARD)
+            header.setUpView(pass)
             primary.setUpView(storeCard.primaryFields, labelColorInt, textColorInt)
             secondary.setUpView(storeCard.secondaryFields, labelColorInt, textColorInt)
 

@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassType
 
 class CardHeaderView : ConstraintLayout {
 
@@ -34,13 +33,13 @@ class CardHeaderView : ConstraintLayout {
         init(context)
     }
 
-    fun setUpView(pass: PKPass, passType: PassType) {
+    fun setUpView(pass: PKPass) {
         val passContent = pass.passContent
         val labelColor = passContent.labelColorAsPKColor
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
         val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val cardContent = getContentForType(passContent, passType)
+        val cardContent = getContentForType(passContent, pass.getPassType())
         if (cardContent != null) {
             header.setUpView(cardContent.headerFields, labelColorInt, textColorInt)
             if (cardContent.headerFields.isEmpty()) {

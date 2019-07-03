@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
 
 class EventTicketView : ConstraintLayout {
@@ -51,7 +50,7 @@ class EventTicketView : ConstraintLayout {
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
         val eventTicket = passContent.eventTicket
         if (eventTicket != null) {
-            header.setUpView(pass, PassType.EVENT_TICKET)
+            header.setUpView(pass)
             primary.setUpView(eventTicket.primaryFields, labelColorInt, textColorInt)
             secondary.setUpView(eventTicket.secondaryFields, labelColorInt, textColorInt)
             auxiliary.setUpView(eventTicket.auxiliaryFields, labelColorInt, textColorInt)
