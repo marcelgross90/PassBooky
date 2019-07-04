@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKBarcode
-import rocks.marcelgross.passbooky.zxing.Zxing
+import rocks.marcelgross.passbooky.zxing.encodeAsBitmap
 import rocks.marcelgross.passbooky.zxing.getZxingFormat
 
 class BarcodeView : ConstraintLayout {
@@ -44,7 +44,7 @@ class BarcodeView : ConstraintLayout {
 
         val bitmap: Bitmap?
         try {
-            bitmap = Zxing.encodeAsBitmap(
+            bitmap = encodeAsBitmap(
                 barcode.message,
                 barcode.format.getZxingFormat()
             )
