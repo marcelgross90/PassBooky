@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         passList.layoutManager = layoutManager
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -69,9 +68,9 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
     }
 
     private fun saveFiles() {
-        val fiels = listOf("cbr-businesscard.pkpass", "pass.pkpass", "cine.pkpass")
-        for (fiel in fiels) {
-            val pass = savePass(assets.open(fiel), this)
+        val files = listOf("cbr-business-card.pkpass", "pass.pkpass", "cine.pkpass")
+        for (file in files) {
+            savePass(assets.open(file), this)
         }
 
         iterateOverFiles()
@@ -84,6 +83,5 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
                 android.util.Log.d("mgr12348", listFile.absolutePath)
             }
         }
-
     }
 }

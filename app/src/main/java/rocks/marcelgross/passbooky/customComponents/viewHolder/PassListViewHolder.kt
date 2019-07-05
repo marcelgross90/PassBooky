@@ -15,7 +15,6 @@ import rocks.marcelgross.passbooky.prepareNavigationIntent
 import java.util.Locale
 import java.text.DateFormat
 
-
 class PassListViewHolder(
     private val view: View,
     private val onCardClickListener: OnCardClickListener

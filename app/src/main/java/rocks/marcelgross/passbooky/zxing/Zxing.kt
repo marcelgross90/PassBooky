@@ -13,7 +13,7 @@ fun encodeAsBitmap(
 ): Bitmap? {
     val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
     hints[EncodeHintType.MARGIN] = 0
-    //todo use different sizes for PDF_417
+    // todo use different sizes for PDF_417
     val size = 384
     val result = MultiFormatWriter().encode(
         text,

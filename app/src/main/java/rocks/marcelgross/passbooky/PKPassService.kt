@@ -3,7 +3,6 @@ package rocks.marcelgross.passbooky
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.google.gson.Gson
-import rocks.marcelgross.passbooky.PKPassService.copy
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassContent
 import rocks.marcelgross.passbooky.pkpass.PassType
@@ -22,7 +21,7 @@ const val unknownDirName = "unknown"
 
 fun savePass(passFile: InputStream, context: Context): PKPass {
     val copy = passFile.copy()
-    val pass = PKPassService.load(copy.copy())
+    val pass = load(copy.copy())
     val baseDir = context.getDir(baseDirName, Context.MODE_PRIVATE)
     createInitialFolders(baseDir)
 
@@ -58,9 +57,9 @@ private fun createInitialFolders(baseDir: File) {
 
 fun getTempPasses(context: Context): List<Pair<String, PKPass>> {
     return listOf(
-        Pair("cbr-businesscard.pkpass", PKPassService.load(context.assets.open("cbr-businesscard.pkpass"))),
-        Pair("pass.pkpass", PKPassService.load(context.assets.open("pass.pkpass"))),
-        Pair("cine.pkpass", PKPassService.load(context.assets.open("cine.pkpass")))
+        Pair("cbr-business-card.pkpass", load(context.assets.open("cbr-business-card.pkpass"))),
+        Pair("pass.pkpass", load(context.assets.open("pass.pkpass"))),
+        Pair("cine.pkpass", load(context.assets.open("cine.pkpass")))
     )
 }
 
@@ -71,15 +70,15 @@ fun getPasses(context: Context, passType: PassType? = null): List<PKPass> {
     when (passType) {
         PassType.STORE_CARD -> {
             val storeCards = passesDir.filter { it.name == storeCardDirName }[0].listFiles()
-            return storeCards.map { PKPassService.load(it.inputStream()) }
+            return storeCards.map { load(it.inputStream()) }
         }
         PassType.EVENT_TICKET -> {
             val eventTickets = passesDir.filter { it.name == eventTicketsDirName }[0].listFiles()
-            return eventTickets.map { PKPassService.load(it.inputStream()) }
+            return eventTickets.map { load(it.inputStream()) }
         }
         PassType.UNKNOWN -> {
             val unknownPasses = passesDir.filter { it.name == unknownDirName }[0].listFiles()
-            return unknownPasses.map { PKPassService.load(it.inputStream()) }
+            return unknownPasses.map { load(it.inputStream()) }
         }
         else -> {
             val storeCards = passesDir.filter { it.name == storeCardDirName }[0].listFiles()
@@ -88,72 +87,67 @@ fun getPasses(context: Context, passType: PassType? = null): List<PKPass> {
 
             val passes = mutableListOf<PKPass>()
 
-            passes.addAll(storeCards.map { PKPassService.load(it.inputStream()) })
-            passes.addAll(eventTickets.map { PKPassService.load(it.inputStream()) })
-            passes.addAll(unknownPasses.map { PKPassService.load(it.inputStream()) })
+            passes.addAll(storeCards.map { load(it.inputStream()) })
+            passes.addAll(eventTickets.map { load(it.inputStream()) })
+            passes.addAll(unknownPasses.map { load(it.inputStream()) })
 
             return passes
         }
     }
 }
 
-
-object PKPassService {
-
-
-    fun load(passFile: InputStream): PKPass {
-        val pass = PKPass()
-        ZipInputStream(passFile).use { zis ->
-            while (true) {
-                val zipEntry = zis.nextEntry ?: break
-                if (zipEntry.isDirectory) {
-                    continue
-                }
-                val bytes = zis.readBytes()
-                with(zipEntry.name) {
-                    when {
-                        startsWith("pass") ->
-                            pass.passContent = createPass(bytes)
-                        startsWith("strip") ->
-                            pass.strip = createDrawable(bytes)
-                        startsWith("logo") ->
-                            pass.logo = createDrawable(bytes)
-                        startsWith("icon") ->
-                            pass.icon = createDrawable(bytes)
-                        startsWith("thumbnail") ->
-                            pass.thumbnail = createDrawable(bytes)
-                        startsWith("background") ->
-                            pass.background = createDrawable(bytes)
-                    }
+fun load(passFile: InputStream): PKPass {
+    val pass = PKPass()
+    ZipInputStream(passFile).use { zis ->
+        while (true) {
+            val zipEntry = zis.nextEntry ?: break
+            if (zipEntry.isDirectory) {
+                continue
+            }
+            val bytes = zis.readBytes()
+            with(zipEntry.name) {
+                when {
+                    startsWith("pass") ->
+                        pass.passContent = createPass(bytes)
+                    startsWith("strip") ->
+                        pass.strip = createDrawable(bytes)
+                    startsWith("logo") ->
+                        pass.logo = createDrawable(bytes)
+                    startsWith("icon") ->
+                        pass.icon = createDrawable(bytes)
+                    startsWith("thumbnail") ->
+                        pass.thumbnail = createDrawable(bytes)
+                    startsWith("background") ->
+                        pass.background = createDrawable(bytes)
                 }
             }
         }
-        return pass
     }
+    return pass
+}
 
-    fun InputStream.copy(): InputStream {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        this.use { input ->
-            byteArrayOutputStream.use { output ->
-                input.copyTo(output)
-            }
+fun InputStream.copy(): InputStream {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    this.use { input ->
+        byteArrayOutputStream.use { output ->
+            input.copyTo(output)
         }
-
-        return ByteArrayInputStream(byteArrayOutputStream.toByteArray())
     }
 
-    private fun createPass(bytes: ByteArray): PassContent {
-        val gson = Gson()
-        return gson.fromJson(
-            InputStreamReader(ByteArrayInputStream(bytes)),
-            PassContent::class.java
-        )
-    }
+    return ByteArrayInputStream(byteArrayOutputStream.toByteArray())
+}
 
-    private fun createDrawable(bytes: ByteArray): Drawable {
-        return Drawable.createFromStream(
-            ByteArrayInputStream(bytes),
-            null
-        )
-    }
+private fun createPass(bytes: ByteArray): PassContent {
+    val gson = Gson()
+    return gson.fromJson(
+        InputStreamReader(ByteArrayInputStream(bytes)),
+        PassContent::class.java
+    )
+}
+
+private fun createDrawable(bytes: ByteArray): Drawable {
+    return Drawable.createFromStream(
+        ByteArrayInputStream(bytes),
+        null
+    )
 }

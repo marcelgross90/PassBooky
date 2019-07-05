@@ -68,7 +68,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
     }
 
     private fun openInMaps() {
-       prepareNavigationIntent(pass.passContent, this)
+        prepareNavigationIntent(pass.passContent, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +83,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        pass = PKPassService.load(assets.open(fileName))
+        pass = load(assets.open(fileName))
         val passType = pass.getPassType()
 
         var fragment: Fragment? = null

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
+import rocks.marcelgross.passbooky.getContentForType
 import rocks.marcelgross.passbooky.pkpass.PKPass
 
 class CardHeaderView : ConstraintLayout {

@@ -13,19 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.customComponents.adapter.BackFieldAdapter
+import rocks.marcelgross.passbooky.getContentForType
 import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassContent
-import rocks.marcelgross.passbooky.pkpass.PassStructure
-import rocks.marcelgross.passbooky.pkpass.PassType
 import rocks.marcelgross.passbooky.pkpass.asColor
-
-fun getContentForType(passContent: PassContent, passType: PassType): PassStructure? {
-    return when (passType) {
-        PassType.EVENT_TICKET -> passContent.eventTicket
-        PassType.STORE_CARD -> passContent.storeCard
-        PassType.UNKNOWN -> null
-    }
-}
 
 class BackFieldsView : ConstraintLayout {
 

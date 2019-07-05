@@ -33,3 +33,11 @@ fun prepareNavigationIntent(passContent: PassContent, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
     context.startActivity(intent)
 }
+
+fun getContentForType(passContent: PassContent, passType: PassType): PassStructure? {
+    return when (passType) {
+        PassType.EVENT_TICKET -> passContent.eventTicket
+        PassType.STORE_CARD -> passContent.storeCard
+        PassType.UNKNOWN -> null
+    }
+}
