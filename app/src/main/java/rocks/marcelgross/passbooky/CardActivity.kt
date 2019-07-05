@@ -1,7 +1,5 @@
 package rocks.marcelgross.passbooky
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -36,7 +34,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
             val passContent = pass.passContent
             if (passContent.locations.isNotEmpty()) {
                 val menuItem: MenuItem =
-                    menu.add(Menu.NONE, navigationMenuId, Menu.NONE, R.string.navigation)
+                    menu.add(Menu.NONE, navigationMenuId, Menu.NONE, R.string.open_in_maps)
                 menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_navigation)
                 menuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
@@ -66,20 +64,11 @@ class CardActivity : AppCompatActivity(), PassReceiver {
     }
 
     private fun saveInCalendar() {
-        val passContent = pass.passContent
-        val intent = Intent(Intent.ACTION_EDIT)
-        intent.type = "vnd.android.cursor.item/event"
-        intent.putExtra("beginTime", passContent.relevantDate?.time)
-        intent.putExtra("title", passContent.description)
-        startActivity(intent)
+        prepareCalendarIntent(pass.passContent, this)
     }
 
     private fun openInMaps() {
-        val position = pass.passContent.locations[0]
-        val uri =
-            "geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}"
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-        startActivity(intent)
+       prepareNavigationIntent(pass.passContent, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +83,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        pass = PKPassLoader.load(assets.open(fileName))
+        pass = PKPassService.load(assets.open(fileName))
         val passType = pass.getPassType()
 
         var fragment: Fragment? = null
