@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.customComponents.OnCardClickListener
 import rocks.marcelgross.passbooky.customComponents.adapter.PassListAdapter
-import rocks.marcelgross.passbooky.pkpass.PKPass
 
 class MainActivity : AppCompatActivity(), OnCardClickListener {
 
     private lateinit var passList: RecyclerView
     private lateinit var passListAdapter: PassListAdapter
-
-    private lateinit var passes: List<Pair<String, PKPass>>
 
     override fun onClick(fileName: String) {
         val intent = Intent(this, CardActivity::class.java)
@@ -30,11 +27,13 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        passes = getTempPasses(this)
-
         initRecyclerView()
-        passListAdapter.addPasses(getTempPasses(this))
-        passListAdapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        passListAdapter.addPasses(getPasses(this))
     }
 
     private fun initRecyclerView() {
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
     private fun saveFiles() {
         val files = listOf("cbr-business-card.pkpass", "pass.pkpass", "cine.pkpass")
         for (file in files) {
-            savePass(assets.open(file), this)
+            save(assets.open(file), this)
         }
 
         iterateOverFiles()

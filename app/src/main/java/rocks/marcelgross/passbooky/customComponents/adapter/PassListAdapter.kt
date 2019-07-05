@@ -17,6 +17,7 @@ class PassListAdapter(
     fun addPasses(passes: List<Pair<String, PKPass>>) {
         this.passes.clear()
         this.passes.addAll(passes)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PassListViewHolder {

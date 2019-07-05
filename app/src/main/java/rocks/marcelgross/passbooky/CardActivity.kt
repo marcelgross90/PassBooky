@@ -83,7 +83,15 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        pass = load(assets.open(fileName))
+        val loadedPass = getPass(this, fileName)
+
+        if (loadedPass == null) {
+            finish()
+            // todo notify user
+        } else {
+            pass = loadedPass
+        }
+
         val passType = pass.getPassType()
 
         var fragment: Fragment? = null
