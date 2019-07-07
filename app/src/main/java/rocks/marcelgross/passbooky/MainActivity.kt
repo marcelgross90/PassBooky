@@ -1,10 +1,14 @@
 package rocks.marcelgross.passbooky
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Pair
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +21,19 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
     private lateinit var passList: RecyclerView
     private lateinit var passListAdapter: PassListAdapter
 
-    override fun onClick(fileName: String) {
+    override fun onClick(view: View, fileName: String) {
         val intent = Intent(this, CardActivity::class.java)
         intent.putExtra("fileName", fileName)
-        startActivity(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                Pair.create(view, "pass")
+            )
+            startActivity(intent, options.toBundle())
+        } else {
+            startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

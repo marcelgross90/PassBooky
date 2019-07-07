@@ -137,8 +137,9 @@ class CardActivity : AppCompatActivity(), PassReceiver {
     override fun onBackPressed() {
         if (fm.backStackEntryCount > 1)
             super.onBackPressed()
-        else
+        else {
             finish()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

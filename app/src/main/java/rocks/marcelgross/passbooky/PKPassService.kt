@@ -26,7 +26,6 @@ fun save(passFile: InputStream, context: Context) {
     when (pass.getPassType()) {
         PassType.EVENT_TICKET -> {
             writeFile(baseDir, tempFile, eventTicketsDirName)
-
         }
         PassType.STORE_CARD -> {
             writeFile(baseDir, tempFile, storeCardDirName)
@@ -66,7 +65,7 @@ private fun getOrCreateTypeFolder(baseDir: File, folderName: String): File {
 
 private fun createFolder(baseDir: File, folderName: String) {
     if (baseDir.listFiles().none { it.name == folderName }) {
-        val created = File(baseDir.name, folderName).mkdir()
+        val created = File(baseDir, folderName).mkdir()
         if (!created) {
             throw Exception("Folder $folderName could not be created")
         }
