@@ -1,5 +1,6 @@
 package rocks.marcelgross.passbooky
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
@@ -17,8 +19,9 @@ import rocks.marcelgross.passbooky.pkpass.PassType
 
 class CardActivity : AppCompatActivity(), PassReceiver {
 
-    private val navigationMenuId = 1
-    private val calenderMenuId = 2
+    private val shareMenuMenuId = 1
+    private val navigationMenuId = 2
+    private val calenderMenuId = 3
 
     private lateinit var fm: FragmentManager
     private lateinit var contentContainer: View
@@ -31,6 +34,9 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (menu != null) {
+            val shareMenu = menu.add(Menu.NONE, shareMenuMenuId, Menu.NONE, R.string.share)
+            shareMenu.icon = ContextCompat.getDrawable(this, R.drawable.ic_share)
+            shareMenu.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             val passContent = pass.passContent
             if (passContent.locations.isNotEmpty()) {
                 val menuItem: MenuItem =
@@ -51,6 +57,10 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
+            shareMenuMenuId -> {
+                sharePass()
+                return true
+            }
             navigationMenuId -> {
                 openInMaps()
                 return true
@@ -61,6 +71,30 @@ class CardActivity : AppCompatActivity(), PassReceiver {
             }
         }
         return false
+    }
+
+    private fun sharePass() {
+        val pass = getPassFile(this, fileName)
+        if (pass != null) {
+            val uri = FileProvider.getUriForFile(
+                this,
+                "rocks.marcelgross.passbooky.provider",
+                pass
+            )
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = contentResolver.getType(uri)
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT,
+                "Sharing File...")
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Sharing ...")
+
+
+            startActivity(
+                Intent.createChooser(sharingIntent, getString(R.string.share))
+            )
+        }
+
     }
 
     private fun saveInCalendar() {

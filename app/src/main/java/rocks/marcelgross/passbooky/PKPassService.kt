@@ -78,15 +78,21 @@ private fun createInitialFolders(baseDir: File) {
     createFolder(baseDir, unknownDirName)
 }
 
-fun getPass(context: Context, passName: String): PKPass? {
+fun getPassFile(context: Context, passName: String): File? {
     for (file in context.getDir(baseDirName, Context.MODE_PRIVATE).listFiles()) {
         for (listFile in file.listFiles()) {
             if (listFile.name == passName) {
-                return load(listFile.inputStream())
+                return listFile
             }
         }
     }
     return null
+}
+
+fun getPass(context: Context, passName: String): PKPass? {
+    val file = getPassFile(context, passName) ?: return null
+
+    return load(file.inputStream())
 }
 
 fun getPasses(context: Context, passType: PassType? = null): List<Pair<String, PKPass>> {
