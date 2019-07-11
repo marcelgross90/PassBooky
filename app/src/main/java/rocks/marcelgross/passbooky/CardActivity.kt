@@ -1,6 +1,5 @@
 package rocks.marcelgross.passbooky
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,7 +7,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
@@ -75,26 +73,9 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
     private fun sharePass() {
         val pass = getPassFile(this, fileName)
-        if (pass != null) {
-            val uri = FileProvider.getUriForFile(
-                this,
-                "rocks.marcelgross.passbooky.provider",
-                pass
-            )
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = contentResolver.getType(uri)
-            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
-
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT,
-                "Sharing File...")
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Sharing ...")
-
-
-            startActivity(
-                Intent.createChooser(sharingIntent, getString(R.string.share))
-            )
+        pass?.let {
+            shareFile(this, pass)
         }
-
     }
 
     private fun saveInCalendar() {
