@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <rocks.marcelgross.passbooky.customComponents.CardHeaderView
+        <rocks.marcelgross.passbooky.components.CardHeaderView
             android:id="@+id/header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="@+id/primary"
             app:layout_constraintVertical_bias="0.0" />
 
-        <rocks.marcelgross.passbooky.customComponents.PrimaryFieldsView
+        <rocks.marcelgross.passbooky.components.PrimaryFieldsView
             android:id="@+id/primary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header" />
 
-        <rocks.marcelgross.passbooky.customComponents.SecondaryFieldsView
+        <rocks.marcelgross.passbooky.components.SecondaryFieldsView
             android:id="@+id/secondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/primary" />
 
-        <rocks.marcelgross.passbooky.customComponents.AuxiliaryFieldsView
+        <rocks.marcelgross.passbooky.components.AuxiliaryFieldsView
             android:id="@+id/auxiliary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/secondary" />
 
-        <rocks.marcelgross.passbooky.customComponents.BarcodeView
+        <rocks.marcelgross.passbooky.components.BarcodeView
             android:id="@+id/barcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

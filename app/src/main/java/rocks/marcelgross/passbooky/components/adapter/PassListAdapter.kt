@@ -1,11 +1,11 @@
-package rocks.marcelgross.passbooky.customComponents.adapter
+package rocks.marcelgross.passbooky.components.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.OnCardClickListener
-import rocks.marcelgross.passbooky.customComponents.viewHolder.PassListViewHolder
+import rocks.marcelgross.passbooky.components.OnCardClickListener
+import rocks.marcelgross.passbooky.components.viewHolder.PassListViewHolder
 import rocks.marcelgross.passbooky.pkpass.PKPass
 
 class PassListAdapter(

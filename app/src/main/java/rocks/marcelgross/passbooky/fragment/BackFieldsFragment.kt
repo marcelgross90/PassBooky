@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.BackFieldsView
-import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
+import rocks.marcelgross.passbooky.components.BackFieldsView
+import rocks.marcelgross.passbooky.components.receiver.PassReceiver
 
 class BackFieldsFragment : Fragment() {
 

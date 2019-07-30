@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import rocks.marcelgross.passbooky.customComponents.OnCardClickListener
-import rocks.marcelgross.passbooky.customComponents.adapter.PassListAdapter
+import rocks.marcelgross.passbooky.components.OnCardClickListener
+import rocks.marcelgross.passbooky.components.adapter.PassListAdapter
+import rocks.marcelgross.passbooky.pkpass.getPasses
+import rocks.marcelgross.passbooky.pkpass.save
 
 class MainActivity : AppCompatActivity(), OnCardClickListener {
 

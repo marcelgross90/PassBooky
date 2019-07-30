@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents.receiver
+package rocks.marcelgross.passbooky.components.receiver
 
 import rocks.marcelgross.passbooky.pkpass.PKPass
 

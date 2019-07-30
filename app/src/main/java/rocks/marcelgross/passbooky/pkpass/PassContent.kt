@@ -12,11 +12,11 @@ data class PassContent(
     val foregroundColor: String? = null,
     val backgroundColor: String? = null,
     val labelColor: String? = null,
-    val eventTicket: PassStructure? = null,
-    val coupon: PassStructure? = null,
-    val storeCard: PassStructure? = null,
-    val boardingPass: PassStructure? = null,
-    val generic: PassStructure? = null,
+    val eventTicket: PassFields? = null,
+    val coupon: PassFields? = null,
+    val storeCard: PassFields? = null,
+    val boardingPass: PassFields? = null,
+    val generic: PassFields? = null,
     val locations: List<PKLocation> = mutableListOf(),
     val barcodes: List<PKBarcode> = mutableListOf(),
     val barcode: PKBarcode? = null,
@@ -43,4 +43,14 @@ data class PassContent(
             }
             return PKColor(0, 0, 0)
         }
+
+    fun getFields(): PassFields? {
+        if (eventTicket != null) {
+            return eventTicket
+        }
+        if (storeCard != null) {
+            return storeCard
+        }
+        return null
+    }
 }

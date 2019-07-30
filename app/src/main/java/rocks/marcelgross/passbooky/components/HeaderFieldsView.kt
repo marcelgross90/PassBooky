@@ -1,11 +1,11 @@
-package rocks.marcelgross.passbooky.customComponents
+package rocks.marcelgross.passbooky.components
 
 import android.content.Context
 import android.util.AttributeSet
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.abstractViews.PKFieldView
+import rocks.marcelgross.passbooky.components.abstractViews.PKFieldsView
 
-class PrimaryFieldView : PKFieldView {
+class HeaderFieldsView : PKFieldsView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -15,5 +15,5 @@ class PrimaryFieldView : PKFieldView {
         defStyle
     )
 
-    override fun setLayout() = R.layout.primary_field
+    override fun setLayout() = R.layout.header_fields
 }

@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents.viewHolder
+package rocks.marcelgross.passbooky.components.viewHolder
 
 import android.graphics.Color
 import android.os.Build
@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.OnCardClickListener
-import rocks.marcelgross.passbooky.getPass
+import rocks.marcelgross.passbooky.components.OnCardClickListener
+import rocks.marcelgross.passbooky.pkpass.getPassFields
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassContent
 import rocks.marcelgross.passbooky.pkpass.asColor
@@ -80,7 +80,7 @@ class PassListViewHolder(
     private fun setPrimary(pkPass: PKPass) {
         val textColor = pkPass.passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        getPass(pkPass)?.let {
+        getPassFields(pkPass)?.let {
             primary.setTextColor(textColorInt)
             primary.text = it.primaryFields[0].value
         }

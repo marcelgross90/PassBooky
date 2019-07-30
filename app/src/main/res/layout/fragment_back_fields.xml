@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.StoreCardFragment">
 
-    <rocks.marcelgross.passbooky.customComponents.BackFieldsView
+    <rocks.marcelgross.passbooky.components.BackFieldsView
         android:id="@+id/backFieldsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

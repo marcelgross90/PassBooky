@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.EventTicketView
-import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
+import rocks.marcelgross.passbooky.components.EventTicketView
+import rocks.marcelgross.passbooky.components.receiver.PassReceiver
 
 class EventTicketFragment : Fragment() {
 

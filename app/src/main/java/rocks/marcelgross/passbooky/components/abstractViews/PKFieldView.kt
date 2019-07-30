@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents.abstractViews
+package rocks.marcelgross.passbooky.components.abstractViews
 
 import android.content.Context
 import android.util.AttributeSet

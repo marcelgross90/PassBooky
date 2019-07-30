@@ -1,9 +1,9 @@
-package rocks.marcelgross.passbooky.customComponents.adapter
+package rocks.marcelgross.passbooky.components.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import rocks.marcelgross.passbooky.customComponents.viewHolder.BackFieldViewHolder
+import rocks.marcelgross.passbooky.components.viewHolder.BackFieldViewHolder
 import rocks.marcelgross.passbooky.R
 import rocks.marcelgross.passbooky.pkpass.PKField
 

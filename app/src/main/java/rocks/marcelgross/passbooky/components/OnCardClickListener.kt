@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents
+package rocks.marcelgross.passbooky.components
 
 import android.view.View
 

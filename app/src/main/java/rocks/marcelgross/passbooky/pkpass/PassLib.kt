@@ -1,11 +1,8 @@
-package rocks.marcelgross.passbooky
+package rocks.marcelgross.passbooky.pkpass
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.google.gson.Gson
-import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.PassContent
-import rocks.marcelgross.passbooky.pkpass.PassType
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
@@ -18,6 +15,16 @@ const val storeCardDirName = "storeCards"
 const val eventTicketsDirName = "eventTickets"
 const val unknownDirName = "unknown"
 
+fun getPassFields(pkPass: PKPass): PassFields? {
+    val type = pkPass.getPassType()
+    val content = pkPass.passContent
+    return when (type) {
+        PassType.EVENT_TICKET -> content.eventTicket
+        PassType.STORE_CARD -> content.storeCard
+        PassType.UNKNOWN -> null
+    }
+}
+
 fun save(passFile: InputStream, context: Context) {
     val tempFile = saveToTemp(passFile, context)
     val pass = load(tempFile.inputStream())
@@ -25,13 +32,25 @@ fun save(passFile: InputStream, context: Context) {
 
     when (pass.getPassType()) {
         PassType.EVENT_TICKET -> {
-            writeFile(baseDir, tempFile, eventTicketsDirName)
+            writeFile(
+                baseDir,
+                tempFile,
+                eventTicketsDirName
+            )
         }
         PassType.STORE_CARD -> {
-            writeFile(baseDir, tempFile, storeCardDirName)
+            writeFile(
+                baseDir,
+                tempFile,
+                storeCardDirName
+            )
         }
         PassType.UNKNOWN -> {
-            writeFile(baseDir, tempFile, unknownDirName)
+            writeFile(
+                baseDir,
+                tempFile,
+                unknownDirName
+            )
         }
     }
     tempFile.delete()
@@ -73,9 +92,18 @@ private fun createFolder(baseDir: File, folderName: String) {
 }
 
 private fun createInitialFolders(baseDir: File) {
-    createFolder(baseDir, eventTicketsDirName)
-    createFolder(baseDir, storeCardDirName)
-    createFolder(baseDir, unknownDirName)
+    createFolder(
+        baseDir,
+        eventTicketsDirName
+    )
+    createFolder(
+        baseDir,
+        storeCardDirName
+    )
+    createFolder(
+        baseDir,
+        unknownDirName
+    )
 }
 
 fun getPassFile(context: Context, passName: String): File? {

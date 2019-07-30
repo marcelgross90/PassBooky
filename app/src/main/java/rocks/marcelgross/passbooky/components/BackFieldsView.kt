@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents
+package rocks.marcelgross.passbooky.components
 
 import android.app.Activity
 import android.content.Context
@@ -12,8 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.customComponents.adapter.BackFieldAdapter
-import rocks.marcelgross.passbooky.getContentForType
+import rocks.marcelgross.passbooky.components.adapter.BackFieldAdapter
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.asColor
 
@@ -50,9 +49,9 @@ class BackFieldsView : ConstraintLayout {
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
         val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val cardContent = getContentForType(passContent, pass.getPassType())
-        if (cardContent != null) {
-            backFieldAdapter.addBackFields(cardContent.backFields, labelColorInt, textColorInt)
+        val fields = passContent.getFields()
+        if (fields != null) {
+            backFieldAdapter.addBackFields(fields.backFields, labelColorInt, textColorInt)
             backFieldAdapter.notifyDataSetChanged()
         }
         backgroundImage.setImageDrawable(pass.background)

@@ -1,6 +1,6 @@
 package rocks.marcelgross.passbooky.pkpass
 
-data class PassStructure(
+data class PassFields(
     val headerFields: List<PKField> = mutableListOf(),
     val primaryFields: List<PKField> = mutableListOf(),
     val secondaryFields: List<PKField> = mutableListOf(),

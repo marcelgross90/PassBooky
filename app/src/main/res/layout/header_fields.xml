@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <rocks.marcelgross.passbooky.customComponents.HeaderFieldView
+    <rocks.marcelgross.passbooky.components.HeaderFieldView
         android:id="@+id/field3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
         app:layout_constraintStart_toEndOf="@id/field2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <rocks.marcelgross.passbooky.customComponents.HeaderFieldView
+    <rocks.marcelgross.passbooky.components.HeaderFieldView
         android:id="@+id/field2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toEndOf="@id/field1"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <rocks.marcelgross.passbooky.customComponents.HeaderFieldView
+    <rocks.marcelgross.passbooky.components.HeaderFieldView
         android:id="@+id/field1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

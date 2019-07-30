@@ -9,11 +9,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import rocks.marcelgross.passbooky.customComponents.receiver.PassReceiver
+import rocks.marcelgross.passbooky.components.receiver.PassReceiver
 import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
+import rocks.marcelgross.passbooky.pkpass.getPassFile
 
 class CardActivity : AppCompatActivity(), PassReceiver {
 
@@ -98,7 +99,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        val loadedPass = getPass(this, fileName)
+        val loadedPass = rocks.marcelgross.passbooky.pkpass.getPass(this, fileName)
 
         if (loadedPass == null) {
             finish()

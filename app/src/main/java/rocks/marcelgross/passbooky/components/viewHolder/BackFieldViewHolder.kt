@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents.viewHolder
+package rocks.marcelgross.passbooky.components.viewHolder
 
 import android.os.Build
 import android.text.Html

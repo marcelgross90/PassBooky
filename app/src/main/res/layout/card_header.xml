@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <rocks.marcelgross.passbooky.customComponents.HeaderFieldsView
+    <rocks.marcelgross.passbooky.components.HeaderFieldsView
         android:id="@+id/headerFields"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

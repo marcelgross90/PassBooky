@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky.customComponents
+package rocks.marcelgross.passbooky.components
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import rocks.marcelgross.passbooky.R
-import rocks.marcelgross.passbooky.getContentForType
 import rocks.marcelgross.passbooky.pkpass.PKPass
 
 class CardHeaderView : ConstraintLayout {
@@ -40,10 +39,10 @@ class CardHeaderView : ConstraintLayout {
         val labelColorInt = Color.rgb(labelColor.red, labelColor.green, labelColor.blue)
         val textColor = passContent.foregroundColorAsPKColor
         val textColorInt = Color.rgb(textColor.red, textColor.green, textColor.blue)
-        val cardContent = getContentForType(passContent, pass.getPassType())
-        if (cardContent != null) {
-            header.setUpView(cardContent.headerFields, labelColorInt, textColorInt)
-            if (cardContent.headerFields.isEmpty()) {
+        val fields = passContent.getFields()
+        if (fields != null) {
+            header.setUpView(fields.headerFields, labelColorInt, textColorInt)
+            if (fields.headerFields.isEmpty()) {
                 logoText.visibility = View.VISIBLE
                 logoText.setTextColor(textColorInt)
                 logoText.text = passContent.organizationName
