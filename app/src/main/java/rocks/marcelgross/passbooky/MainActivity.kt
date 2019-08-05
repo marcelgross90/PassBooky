@@ -13,15 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import rocks.marcelgross.passbooky.app.db
 import rocks.marcelgross.passbooky.components.OnCardClickListener
-import rocks.marcelgross.passbooky.components.adapter.PassListAdapter
-import rocks.marcelgross.passbooky.pkpass.getPasses
+import rocks.marcelgross.passbooky.components.adapter.PassListCursorAdapter
 import rocks.marcelgross.passbooky.pkpass.save
 
 class MainActivity : AppCompatActivity(), OnCardClickListener {
 
     private lateinit var passList: RecyclerView
-    private lateinit var passListAdapter: PassListAdapter
+    private lateinit var passListAdapter: PassListCursorAdapter
 
     override fun onClick(view: View, fileName: String) {
         val intent = Intent(this, CardActivity::class.java)
@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         setContentView(R.layout.activity_main)
 
         initRecyclerView()
+
+        iterateOverFiles()
     }
 
     override fun onResume() {
         super.onResume()
-
-        passListAdapter.addPasses(getPasses(this))
+        iterateOverFiles()
+        passListAdapter.swapCursor(db.getPasses())
     }
 
     private fun initRecyclerView() {
@@ -59,7 +61,8 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
             layoutManager.orientation
         )
         passList.addItemDecoration(dividerItemDecoration)
-        passListAdapter = PassListAdapter(this)
+        val cursor = db.getPasses() ?: return
+        passListAdapter = PassListCursorAdapter(this, this, cursor)
         passList.adapter = passListAdapter
         passList.setHasFixedSize(true)
         passList.layoutManager = layoutManager
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    // todo delete after testing
     private fun saveFiles() {
         val files = listOf("cbr-business-card.pkpass", "pass.pkpass", "cine.pkpass")
         for (file in files) {
@@ -90,6 +94,7 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         iterateOverFiles()
     }
 
+    // todo delete after testing
     private fun iterateOverFiles() {
         for (s in getDir("passes", Context.MODE_PRIVATE).listFiles()) {
             android.util.Log.d("mgr12348", s.absolutePath)

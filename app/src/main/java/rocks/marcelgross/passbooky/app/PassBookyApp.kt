@@ -1,4 +1,4 @@
-package rocks.marcelgross.passbooky
+package rocks.marcelgross.passbooky.app
 
 import rocks.marcelgross.passbooky.database.Database
 

@@ -1,22 +1,21 @@
 package rocks.marcelgross.passbooky.database
 
-import rocks.marcelgross.passbooky.pkpass.PKPass
-import rocks.marcelgross.passbooky.pkpass.getPassFields
-
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.text.format.DateFormat
+import rocks.marcelgross.passbooky.pkpass.PKPass
+import rocks.marcelgross.passbooky.pkpass.getPassFields
 
 const val PASSES = "passes"
 const val PASSES_ID = "_id"
 const val PASSES_BACKGROUND_COLOR = "background_color"
 const val PASSES_PRIMARY_COLOR = "primary_color"
 const val PASSES_LABEL_COLOR = "label_color"
-const val PASSES_PRIMARY = "primary"
-const val PASSES_SECONDARY = "secondary"
+const val PASSES_PRIMARY = "primary_text"
+const val PASSES_SECONDARY = "secondary_text"
+const val PASSES_TYPE = "type"
 
 class Database {
     private lateinit var db: SQLiteDatabase
@@ -32,7 +31,8 @@ class Database {
             $PASSES_PRIMARY_COLOR,
             $PASSES_LABEL_COLOR,
             $PASSES_PRIMARY,
-            $PASSES_SECONDARY
+            $PASSES_SECONDARY,
+            $PASSES_TYPE
             FROM $PASSES
             ORDER BY $PASSES_ID DESC
         """, null
@@ -47,6 +47,7 @@ class Database {
         cv.put(PASSES_LABEL_COLOR, content.labelColor)
         cv.put(PASSES_PRIMARY, fields.primaryFields[0].value)
         cv.put(PASSES_SECONDARY, content.relevantDate.toString())
+        cv.put(PASSES_TYPE, pkPass.getPassType().name)
         return db.insert(PASSES, null, cv)
     }
 
@@ -78,7 +79,8 @@ private fun createPasses(db: SQLiteDatabase) {
             $PASSES_PRIMARY_COLOR TEXT,
             $PASSES_LABEL_COLOR TEXT,
             $PASSES_PRIMARY TEXT NOT NULL,
-            $PASSES_SECONDARY TEXT
+            $PASSES_SECONDARY TEXT,
+            $PASSES_TYPE TEXT
         )"""
     )
 }

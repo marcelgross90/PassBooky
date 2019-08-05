@@ -2,18 +2,40 @@ package rocks.marcelgross.passbooky.pkpass
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import com.google.gson.Gson
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import rocks.marcelgross.passbooky.app.db
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.util.Date
 import java.util.zip.ZipInputStream
 
 const val baseDirName = "passes"
 const val storeCardDirName = "storeCards"
 const val eventTicketsDirName = "eventTickets"
 const val unknownDirName = "unknown"
+
+enum class ImageTypes(val type: String) {
+    ICON("icon"),
+    BACKGROUND("background"),
+    LOGO("logo")
+}
+
+fun getUriForImage(path: String, image: ImageTypes): Uri? {
+    val files = File(path).listFiles().filter { it.name.contains(image.type) }.sortedDescending()
+    if (files.isEmpty()) {
+        return null
+    }
+
+    return try {
+        Uri.parse(files[0].absolutePath)
+    } catch (ex: Exception) {
+        null
+    }
+}
 
 fun getPassFields(pkPass: PKPass): PassFields? {
     val type = pkPass.getPassType()
@@ -28,31 +50,31 @@ fun getPassFields(pkPass: PKPass): PassFields? {
 fun save(passFile: InputStream, context: Context) {
     val tempFile = saveToTemp(passFile, context)
     val pass = load(tempFile.inputStream())
-    val baseDir = context.getDir(baseDirName, Context.MODE_PRIVATE)
 
-    when (pass.getPassType()) {
-        PassType.EVENT_TICKET -> {
-            writeFile(
-                baseDir,
-                tempFile,
-                eventTicketsDirName
-            )
-        }
-        PassType.STORE_CARD -> {
-            writeFile(
-                baseDir,
-                tempFile,
-                storeCardDirName
-            )
-        }
-        PassType.UNKNOWN -> {
-            writeFile(
-                baseDir,
-                tempFile,
-                unknownDirName
-            )
+    var id: Long = 0
+    GlobalScope.launch {
+        id = db.insertPass(pass)
+    }
+
+    if (id < 1) {
+        // todo throw exception?!?
+        return
+    }
+
+    val baseDir = context.getDir(baseDirName, Context.MODE_PRIVATE)
+    val folder = getOrCreateTypeFolder(baseDir, id.toString())
+    ZipInputStream(tempFile.inputStream()).use { zis ->
+        while (true) {
+            val zipEntry = zis.nextEntry ?: break
+            if (zipEntry.isDirectory) {
+                continue
+            }
+            File(folder, zipEntry.name).outputStream().use {
+                it.write(zis.readBytes())
+            }
         }
     }
+
     tempFile.delete()
 }
 
@@ -63,15 +85,6 @@ private fun saveToTemp(passFile: InputStream, context: Context): File {
     }
 
     return tempFile
-}
-
-private fun writeFile(baseDir: File, tempFile: File, folderName: String) {
-    val timeStamp = Date().time
-    val typeFolder = getOrCreateTypeFolder(baseDir, folderName)
-
-    File(typeFolder, "$timeStamp.pkpass").outputStream().use {
-        it.write(tempFile.readBytes())
-    }
 }
 
 private fun getOrCreateTypeFolder(baseDir: File, folderName: String): File {
