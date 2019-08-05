@@ -14,11 +14,10 @@ import java.io.InputStreamReader
 import java.util.zip.ZipInputStream
 
 const val baseDirName = "passes"
-const val storeCardDirName = "storeCards"
-const val eventTicketsDirName = "eventTickets"
-const val unknownDirName = "unknown"
 
 enum class ImageTypes(val type: String) {
+    STRIP("strip"),
+    THUMBNAIL("thumbnail"),
     ICON("icon"),
     BACKGROUND("background"),
     LOGO("logo")
@@ -62,7 +61,7 @@ fun save(passFile: InputStream, context: Context) {
     }
 
     val baseDir = context.getDir(baseDirName, Context.MODE_PRIVATE)
-    val folder = getOrCreateTypeFolder(baseDir, id.toString())
+    val folder = getOrCreateFolderForPass(baseDir, id.toString())
     ZipInputStream(tempFile.inputStream()).use { zis ->
         while (true) {
             val zipEntry = zis.nextEntry ?: break
@@ -87,7 +86,7 @@ private fun saveToTemp(passFile: InputStream, context: Context): File {
     return tempFile
 }
 
-private fun getOrCreateTypeFolder(baseDir: File, folderName: String): File {
+private fun getOrCreateFolderForPass(baseDir: File, folderName: String): File {
     val foldersInBaseDir = baseDir.listFiles()
     if (foldersInBaseDir.isEmpty() || foldersInBaseDir.none { it.name == folderName }) {
         createFolder(baseDir, folderName)
@@ -104,21 +103,6 @@ private fun createFolder(baseDir: File, folderName: String) {
     }
 }
 
-private fun createInitialFolders(baseDir: File) {
-    createFolder(
-        baseDir,
-        eventTicketsDirName
-    )
-    createFolder(
-        baseDir,
-        storeCardDirName
-    )
-    createFolder(
-        baseDir,
-        unknownDirName
-    )
-}
-
 fun getPassFile(context: Context, passName: String): File? {
     for (file in context.getDir(baseDirName, Context.MODE_PRIVATE).listFiles()) {
         for (listFile in file.listFiles()) {
@@ -130,59 +114,21 @@ fun getPassFile(context: Context, passName: String): File? {
     return null
 }
 
-fun getPass(context: Context, passName: String): PKPass? {
-    val file = getPassFile(context, passName) ?: return null
+fun getPass(path: String): PKPass? {
+    val passFiles = File(path).listFiles()
 
-    return load(file.inputStream())
-}
+    val pass = PKPass()
 
-fun getPasses(context: Context, passType: PassType? = null): List<Pair<String, PKPass>> {
-    val baseDir = context.getDir(baseDirName, Context.MODE_PRIVATE)
-    createInitialFolders(baseDir)
-    val passesDir = baseDir.listFiles()
-    when (passType) {
-        PassType.STORE_CARD -> {
-            val storeCards = passesDir.filter { it.name == storeCardDirName }[0].listFiles()
-            return storeCards.filter { !it.isDirectory }
-                .map { Pair(it.name, load(it.inputStream())) }
-        }
-        PassType.EVENT_TICKET -> {
-            val eventTickets =
-                passesDir.filter { it.name == eventTicketsDirName }[0].listFiles()
-            return eventTickets.filter { !it.isDirectory }
-                .map { Pair(it.name, load(it.inputStream())) }
-        }
-        PassType.UNKNOWN -> {
-            val unknownPasses =
-                passesDir.filter { it.name == unknownDirName }[0].listFiles()
-            return unknownPasses.filter { !it.isDirectory }
-                .map { Pair(it.name, load(it.inputStream())) }
-        }
-        else -> {
-            val storeCards = passesDir.filter { it.name == storeCardDirName }[0].listFiles()
-            val eventTickets =
-                passesDir.filter { it.name == eventTicketsDirName }[0].listFiles()
-            val unknownPasses =
-                passesDir.filter { it.name == unknownDirName }[0].listFiles()
+    val passContent = passFiles.filter { it.name.startsWith("pass") }[0].readBytes()
 
-            val passes = mutableListOf<Pair<String, PKPass>>()
+    pass.passContent = createPass(passContent)
+    pass.strip = Drawable.createFromPath(getUriForImage(path, ImageTypes.STRIP)?.path)
+    pass.logo = Drawable.createFromPath(getUriForImage(path, ImageTypes.LOGO)?.path)
+    pass.icon = Drawable.createFromPath(getUriForImage(path, ImageTypes.ICON)?.path)
+    pass.thumbnail = Drawable.createFromPath(getUriForImage(path, ImageTypes.THUMBNAIL)?.path)
+    pass.background = Drawable.createFromPath(getUriForImage(path, ImageTypes.BACKGROUND)?.path)
 
-            passes.addAll(
-                storeCards.filter { !it.isDirectory }
-                    .map { Pair(it.name, load(it.inputStream())) }
-            )
-            passes.addAll(
-                eventTickets.filter { !it.isDirectory }
-                    .map { Pair(it.name, load(it.inputStream())) }
-            )
-            passes.addAll(
-                unknownPasses.filter { !it.isDirectory }
-                    .map { Pair(it.name, load(it.inputStream())) }
-            )
-
-            return passes
-        }
-    }
+    return pass
 }
 
 fun load(passFile: InputStream): PKPass {

@@ -99,7 +99,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        val loadedPass = rocks.marcelgross.passbooky.pkpass.getPass(this, fileName)
+        val loadedPass = rocks.marcelgross.passbooky.pkpass.getPass(fileName)
 
         if (loadedPass == null) {
             finish()
