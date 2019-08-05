@@ -14,6 +14,7 @@ import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
+import rocks.marcelgross.passbooky.pkpass.buildZip
 import rocks.marcelgross.passbooky.pkpass.getPassFile
 
 class CardActivity : AppCompatActivity(), PassReceiver {
@@ -73,6 +74,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
     }
 
     private fun sharePass() {
+        val file = buildZip(fileName, this)
         val pass = getPassFile(this, fileName)
         pass?.let {
             shareFile(this, pass)

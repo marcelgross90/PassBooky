@@ -7,11 +7,17 @@ import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import rocks.marcelgross.passbooky.app.db
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 const val baseDirName = "passes"
 
@@ -112,6 +118,25 @@ fun getPassFile(context: Context, passName: String): File? {
         }
     }
     return null
+}
+
+ fun buildZip(path: String, context: Context): File {
+    val passFiles = File(path).listFiles()
+    val tempFile = File.createTempFile("temp", "test", context.cacheDir)
+
+    ZipOutputStream(BufferedOutputStream(FileOutputStream(tempFile))).use { out ->
+        for (file in passFiles) {
+            FileInputStream(file).use { fi ->
+                BufferedInputStream(fi).use { origin ->
+                    val entry = ZipEntry(file.name)
+                    out.putNextEntry(entry)
+                    origin.copyTo(out, 1024)
+                }
+            }
+        }
+    }
+
+    return tempFile
 }
 
 fun getPass(path: String): PKPass? {
