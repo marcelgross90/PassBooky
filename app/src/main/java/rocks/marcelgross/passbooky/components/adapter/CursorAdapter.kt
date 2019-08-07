@@ -17,15 +17,7 @@ abstract class CursorAdapter<V : RecyclerView.ViewHolder>(c: Cursor) :
     }
 
     override fun onBindViewHolder(holder: V, position: Int) {
-        val cursor = mCursor
-            ?: throw IllegalStateException("Cursor is null")
-
-        if (!mDataValid) {
-            throw IllegalStateException("Cannot bind view holder when cursor is in invalid state.")
-        }
-        if (!cursor.moveToPosition(position)) {
-            throw IllegalStateException("Could not move cursor to position $position when trying to bind view holder")
-        }
+        val cursor = getAndValidateCursor(position)
 
         onBindViewHolder(holder, cursor)
     }
@@ -41,28 +33,22 @@ abstract class CursorAdapter<V : RecyclerView.ViewHolder>(c: Cursor) :
     }
 
     override fun getItemId(position: Int): Long {
-        val cursor = mCursor
-            ?: throw IllegalStateException("Cursor is null")
+        val cursor = getAndValidateCursor(position)
 
-        if (!mDataValid) {
-            throw IllegalStateException("Cannot lookup item id when cursor is in invalid state.")
-        }
-        if (!cursor.moveToPosition(position)) {
-            throw IllegalStateException("Could not move cursor to position $position when trying to get an item id")
-        }
-
-        return mCursor!!.getLong(mRowIDColumn)
+        return cursor.getLong(mRowIDColumn)
     }
 
-    fun getItem(position: Int): Cursor {
+    fun getItem(position: Int) = getAndValidateCursor(position)
+
+    private fun getAndValidateCursor(position: Int): Cursor {
         val cursor = mCursor
             ?: throw IllegalStateException("Cursor is null")
 
         if (!mDataValid) {
-            throw IllegalStateException("Cannot lookup item id when cursor is in invalid state.")
+            throw IllegalStateException("Cursor is in invalid state.")
         }
         if (!cursor.moveToPosition(position)) {
-            throw IllegalStateException("Could not move cursor to position $position when trying to get an item id")
+            throw IllegalStateException("Could not move cursor to position $position.")
         }
         return cursor
     }

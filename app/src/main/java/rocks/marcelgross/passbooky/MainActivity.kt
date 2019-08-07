@@ -43,13 +43,10 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
         setContentView(R.layout.activity_main)
 
         initRecyclerView()
-
-        iterateOverFiles()
     }
 
     override fun onResume() {
         super.onResume()
-        iterateOverFiles()
         passListAdapter.swapCursor(db.getPasses())
     }
 
@@ -76,7 +73,6 @@ class MainActivity : AppCompatActivity(), OnCardClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.save -> {
-                iterateOverFiles()
                 saveFiles()
                 return true
             }

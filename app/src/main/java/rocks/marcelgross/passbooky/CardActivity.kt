@@ -14,8 +14,8 @@ import rocks.marcelgross.passbooky.fragment.EventTicketFragment
 import rocks.marcelgross.passbooky.fragment.StoreCardFragment
 import rocks.marcelgross.passbooky.pkpass.PKPass
 import rocks.marcelgross.passbooky.pkpass.PassType
-import rocks.marcelgross.passbooky.pkpass.buildZip
-import rocks.marcelgross.passbooky.pkpass.getPassFile
+import rocks.marcelgross.passbooky.pkpass.buildPass
+import rocks.marcelgross.passbooky.pkpass.loadPass
 
 class CardActivity : AppCompatActivity(), PassReceiver {
 
@@ -74,11 +74,11 @@ class CardActivity : AppCompatActivity(), PassReceiver {
     }
 
     private fun sharePass() {
-        val file = buildZip(fileName, this)
-        val pass = getPassFile(this, fileName)
-        pass?.let {
-            shareFile(this, pass)
-        }
+        val pass = buildPass(fileName, this)
+
+        shareFile(this, pass)
+
+        pass.deleteRecursively()
     }
 
     private fun saveInCalendar() {
@@ -101,7 +101,7 @@ class CardActivity : AppCompatActivity(), PassReceiver {
 
         fileName = intent.getStringExtra("fileName")
 
-        val loadedPass = rocks.marcelgross.passbooky.pkpass.getPass(fileName)
+        val loadedPass = loadPass(fileName)
 
         if (loadedPass == null) {
             finish()
@@ -121,12 +121,6 @@ class CardActivity : AppCompatActivity(), PassReceiver {
         }
 
         if (fragment != null) {
-            val bundle = Bundle()
-            bundle.putString(
-                "fileName",
-                fileName
-            )
-            fragment.arguments = bundle
             replaceFragment(
                 fm,
                 fragment

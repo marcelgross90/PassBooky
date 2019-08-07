@@ -109,22 +109,14 @@ private fun createFolder(baseDir: File, folderName: String) {
     }
 }
 
-fun getPassFile(context: Context, passName: String): File? {
-    for (file in context.getDir(baseDirName, Context.MODE_PRIVATE).listFiles()) {
-        for (listFile in file.listFiles()) {
-            if (listFile.name == passName) {
-                return listFile
-            }
-        }
-    }
-    return null
-}
-
- fun buildZip(path: String, context: Context): File {
+fun buildPass(path: String, context: Context): File {
     val passFiles = File(path).listFiles()
-    val tempFile = File.createTempFile("temp", "test", context.cacheDir)
+    val tempFile = File.createTempFile("pass", ".pkpass", context.cacheDir)
 
-    ZipOutputStream(BufferedOutputStream(FileOutputStream(tempFile))).use { out ->
+    ZipOutputStream(
+        BufferedOutputStream(
+            FileOutputStream(tempFile))
+    ).use { out ->
         for (file in passFiles) {
             FileInputStream(file).use { fi ->
                 BufferedInputStream(fi).use { origin ->
@@ -139,7 +131,7 @@ fun getPassFile(context: Context, passName: String): File? {
     return tempFile
 }
 
-fun getPass(path: String): PKPass? {
+fun loadPass(path: String): PKPass? {
     val passFiles = File(path).listFiles()
 
     val pass = PKPass()
@@ -147,14 +139,17 @@ fun getPass(path: String): PKPass? {
     val passContent = passFiles.filter { it.name.startsWith("pass") }[0].readBytes()
 
     pass.passContent = createPass(passContent)
-    pass.strip = Drawable.createFromPath(getUriForImage(path, ImageTypes.STRIP)?.path)
-    pass.logo = Drawable.createFromPath(getUriForImage(path, ImageTypes.LOGO)?.path)
-    pass.icon = Drawable.createFromPath(getUriForImage(path, ImageTypes.ICON)?.path)
-    pass.thumbnail = Drawable.createFromPath(getUriForImage(path, ImageTypes.THUMBNAIL)?.path)
-    pass.background = Drawable.createFromPath(getUriForImage(path, ImageTypes.BACKGROUND)?.path)
+    pass.strip = getDrawableForType(path, ImageTypes.STRIP)
+    pass.logo = getDrawableForType(path, ImageTypes.LOGO)
+    pass.icon = getDrawableForType(path, ImageTypes.ICON)
+    pass.thumbnail = getDrawableForType(path, ImageTypes.THUMBNAIL)
+    pass.background = getDrawableForType(path, ImageTypes.BACKGROUND)
 
     return pass
 }
+
+private fun getDrawableForType(path: String, imageType: ImageTypes) =
+    Drawable.createFromPath(getUriForImage(path, imageType)?.path)
 
 fun load(passFile: InputStream): PKPass {
     val pass = PKPass()
